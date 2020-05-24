@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
+//TODO reformat classes to suitable logic
 class Configuration {
 
     public Properties properties = new Properties();
@@ -15,6 +16,15 @@ class Configuration {
             properties.load(Files.newInputStream(configFile));
         }
         catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveNewIP(String ip) {
+        this.properties.setProperty("lastIP", ip);
+        try {
+            this.properties.store(Files.newOutputStream(configFile), "Auto-Generated");
+        }catch(Exception e) {
             e.printStackTrace();
         }
     }
@@ -33,6 +43,10 @@ class Configuration {
 
     protected String getToken() {
         return properties.getProperty("token");
+    }
+
+    public String getLastIP() {
+        return properties.getProperty("lastIP");
     }
 
     public Configuration(Path configFile) {
